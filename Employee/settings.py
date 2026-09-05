@@ -34,6 +34,10 @@ ALLOWED_HOSTS = os.environ.get(
     "127.0.0.1,localhost,employee-management-system-production-8f70.up.railway.app"
 ).split(",")
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://employee-management-system-production-8f70.up.railway.app",
+]
+
 
 # Application definition
 
