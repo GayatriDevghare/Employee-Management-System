@@ -3,6 +3,7 @@ from urllib import request
 import random
 import re
 from functools import wraps
+from django.db.models import Q
 from collections import defaultdict
 
 # from datetime import datetime, time
@@ -497,18 +498,59 @@ def total_employees(request):
     )
 
 #========Active Employees Function========
+# ======== Active Employees Function ========
 def active_employees(request):
-    
+
     employees = Employee.objects.filter(
         isDeleted=False,
         status="Active"
-    ).order_by("-created_date")
+    )
 
-    # Pagination: 5 employees per page
+    # Search by name
+    search = request.GET.get("search", "").strip()
+    if search:
+        employees = employees.filter(
+            name__icontains=search
+        )
+
+    # Status filter
+    status = request.GET.get("status", "").strip()
+    if status:
+        employees = employees.filter(status=status)
+
+    # Role filter
+    role = request.GET.get("role", "").strip()
+    if role:
+        employees = employees.filter(role=role)
+
+    # Sorting
+    sort = request.GET.get("sort", "new")
+
+    if sort == "name":
+        employees = employees.order_by("name")
+
+    elif sort == "-name":
+        employees = employees.order_by("-name")
+
+    elif sort == "new":
+        employees = employees.order_by("-created_date")
+
+    elif sort == "old":
+        employees = employees.order_by("created_date")
+
+    elif sort == "salary_high":
+        employees = employees.order_by("-salary")
+
+    elif sort == "salary_low":
+        employees = employees.order_by("salary")
+
+    else:
+        employees = employees.order_by("-created_date")
+
+    # Pagination
     paginator = Paginator(employees, 5)
 
     page_number = request.GET.get("page")
-
     page_obj = paginator.get_page(page_number)
 
     return render(
@@ -521,9 +563,10 @@ def active_employees(request):
         }
     )
 
-#========Recently Added Employees Function========
+
+# ======== Recently Added Employees Function ========
 def recent_employees(request):
-    
+
     today = timezone.localdate()
 
     start = timezone.make_aware(
@@ -538,20 +581,61 @@ def recent_employees(request):
         isDeleted=False,
         created_date__gte=start,
         created_date__lte=end
-    ).order_by("-created_date")
+    )
 
-    print("Today's employees:", employees.count())
+    # Search by name
+    search = request.GET.get("search", "").strip()
+    if search:
+        employees = employees.filter(
+            name__icontains=search
+        )
 
+    # Status filter
+    status = request.GET.get("status", "").strip()
+    if status:
+        employees = employees.filter(status=status)
+
+    # Role filter
+    role = request.GET.get("role", "").strip()
+    if role:
+        employees = employees.filter(role=role)
+
+    # Sorting
+    sort = request.GET.get("sort", "new")
+
+    if sort == "name":
+        employees = employees.order_by("name")
+
+    elif sort == "-name":
+        employees = employees.order_by("-name")
+
+    elif sort == "new":
+        employees = employees.order_by("-created_date")
+
+    elif sort == "old":
+        employees = employees.order_by("created_date")
+
+    elif sort == "salary_high":
+        employees = employees.order_by("-salary")
+
+    elif sort == "salary_low":
+        employees = employees.order_by("salary")
+
+    else:
+        employees = employees.order_by("-created_date")
+
+    # Pagination
     paginator = Paginator(employees, 5)
 
-    page = request.GET.get("page")
-    employees = paginator.get_page(page)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
     return render(
         request,
         "view_employee.html",
         {
-            "employees": employees,
+            "employees": page_obj,
+            "page_obj": page_obj,
             "title": "Today's Recently Added Employees"
         }
     )
