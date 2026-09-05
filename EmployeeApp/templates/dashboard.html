@@ -1,0 +1,2235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+    /* ======================================================
+GOOGLE FONT
+====================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ======================================================
+RESET
+====================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    display:flex;
+    min-height:100vh;
+    background:#f5f7fb;
+    color:#1e293b;
+    overflow-x:hidden;
+}
+
+/* ======================================================
+CUSTOM SCROLLBAR
+====================================================== */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#edf2f7;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#7c3aed;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#5b21b6;
+}
+
+/* ======================================================
+SIDEBAR
+====================================================== */
+
+.sidebar{
+
+    width:270px;
+    height:100vh;
+
+    position:fixed;
+    left:0;
+    top:0;
+
+    background:linear-gradient(180deg,#111827,#1e293b);
+
+    color:white;
+
+    padding:25px 20px;
+
+    display:flex;
+    flex-direction:column;
+
+    box-shadow:
+    10px 0 35px rgba(0,0,0,.12);
+
+    overflow-y:auto;
+
+    z-index:999;
+}
+
+/* LOGO */
+
+.sidebar h2{
+
+    text-align:center;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    margin-bottom:25px;
+
+    color:#fff;
+}
+
+/* ======================================================
+PROFILE
+====================================================== */
+
+.profile{
+
+    text-align:center;
+
+    padding-bottom:25px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    margin-bottom:25px;
+}
+
+.profile-img{
+
+    width:95px;
+    height:95px;
+
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:4px solid rgba(255,255,255,.2);
+
+    transition:.4s;
+}
+
+.profile-img:hover{
+
+    transform:scale(1.08);
+
+    border-color:#8b5cf6;
+}
+
+.profile h5{
+
+    margin-top:15px;
+
+    font-size:18px;
+    align:center;
+
+    font-weight:600;
+}
+
+.profile p{
+
+    color:#cbd5e1;
+
+    font-size:14px;
+    align:center;
+
+    margin-top:6px;
+}
+
+/* ======================================================
+MENU
+====================================================== */
+
+.sidebar ul{
+
+    list-style:none;
+}
+
+.sidebar ul li{
+
+    margin-bottom:10px;
+}
+
+.sidebar ul li a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    color:#dbe4f0;
+
+    text-decoration:none;
+
+    padding:14px 18px;
+
+    border-radius:14px;
+
+    transition:.35s;
+
+    font-size:15px;
+
+    font-weight:500;
+}
+
+/* ICON */
+
+.sidebar ul li a i{
+
+    width:24px;
+
+    text-align:center;
+
+    font-size:18px;
+}
+
+/* HOVER */
+
+.sidebar ul li a:hover{
+
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+    color:#fff;
+
+    transform:translateX(8px);
+
+    box-shadow:
+    0 10px 25px rgba(99,102,241,.35);
+}
+
+/* ACTIVE MENU */
+
+.sidebar ul li a.active{
+
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+    color:white;
+
+    box-shadow:
+    0 12px 30px rgba(99,102,241,.4);
+}
+
+/* ======================================================
+MAIN CONTENT
+====================================================== */
+
+.main-content{
+
+    flex:1;
+
+    margin-left:270px;
+
+    padding:35px;
+}
+
+/* ======================================================
+HEADER
+====================================================== */
+
+.header{
+
+    background:rgba(255,255,255,.92);
+
+    backdrop-filter:blur(15px);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:20px 28px;
+
+    border-radius:20px;
+
+    box-shadow:
+    0 12px 35px rgba(15,23,42,.08);
+
+    margin-bottom:25px;
+}
+
+.header h1{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#1e293b;
+}
+
+/* ======================================================
+HEADER RIGHT
+====================================================== */
+
+.header-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+}
+
+/* SEARCH BOX */
+
+.search-box{
+
+    position:relative;
+}
+
+.search-box input{
+
+    width:280px;
+
+    padding:12px 20px 12px 45px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:50px;
+
+    background:#eef2ff;
+
+    transition:.3s;
+}
+
+.search-box input:focus{
+
+    background:white;
+
+    box-shadow:
+    0 10px 30px rgba(99,102,241,.2);
+}
+
+.search-box i{
+
+    position:absolute;
+
+    left:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#6366f1;
+}
+
+/* NOTIFICATION */
+
+.notification{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    color:#6366f1;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.08);
+}
+
+.notification:hover{
+
+    transform:translateY(-4px);
+
+    background:#6366f1;
+
+    color:white;
+}
+
+/* ======================================================
+LOGOUT BUTTON
+====================================================== */
+
+.logout-btn{
+
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:12px 24px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+    transition:.35s;
+
+    box-shadow:
+    0 10px 25px rgba(239,68,68,.35);
+}
+
+.logout-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 15px 35px rgba(239,68,68,.45);
+}
+
+/*=====================================================
+                WELCOME SECTION
+======================================================*/
+
+.welcome{
+
+    margin-top:30px;
+
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+    border-radius:24px;
+
+    padding:35px;
+
+    color:white;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 20px 45px rgba(99,102,241,.35);
+
+}
+
+.welcome::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:280px;
+
+    height:280px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:50%;
+
+    top:-120px;
+
+    right:-90px;
+}
+
+.welcome::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    background:rgba(255,255,255,.06);
+
+    border-radius:50%;
+
+    bottom:-70px;
+
+    left:-60px;
+}
+
+.welcome h2{
+
+    font-size:32px;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+.welcome p{
+
+    font-size:16px;
+
+    opacity:.9;
+
+    line-height:28px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+/*=====================================================
+                    DASHBOARD CARDS
+======================================================*/
+
+.cards{
+
+    margin-top:35px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    gap:25px;
+}
+
+.card-link{
+
+    text-decoration:none;
+
+    color:inherit;
+}
+
+.card{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:28px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+    box-shadow:
+    0 12px 30px rgba(15,23,42,.08);
+}
+
+.card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:
+    0 22px 45px rgba(99,102,241,.18);
+}
+
+/* Decorative Background */
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+
+    height:120px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.12);
+
+    right:-30px;
+
+    top:-30px;
+}
+
+/* Icon */
+
+.card i{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+    color:white;
+
+    margin-bottom:22px;
+}
+
+.card h3{
+
+    font-size:17px;
+
+    font-weight:500;
+
+    margin-bottom:12px;
+
+    color:white;
+}
+
+.card h1{
+
+    font-size:40px;
+
+    font-weight:700;
+
+    color:white;
+}
+
+/* Card Colors */
+
+.blue{
+
+    background:linear-gradient(135deg,#4f46e5,#6366f1);
+}
+
+.blue i{
+
+    background:rgba(255,255,255,.18);
+}
+
+.green{
+
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+}
+
+.green i{
+
+    background:rgba(255,255,255,.18);
+}
+
+.orange{
+
+    background:linear-gradient(135deg,#ea580c,#fb923c);
+}
+
+.orange i{
+
+    background:rgba(255,255,255,.18);
+}
+
+.purple{
+
+    background:linear-gradient(135deg,#7c3aed,#a855f7);
+}
+
+.purple i{
+
+    background:rgba(255,255,255,.18);
+}
+
+/*=====================================================
+                    CHART SECTION
+======================================================*/
+
+.chart-container{
+
+    margin-top:40px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
+
+    gap:25px;
+}
+
+.chart-box{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:28px;
+
+    box-shadow:
+    0 12px 35px rgba(15,23,42,.08);
+
+    transition:.35s;
+
+    position:relative;
+}
+
+.chart-box:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+    0 20px 45px rgba(0,0,0,.12);
+}
+
+.chart-box h2{
+
+    font-size:20px;
+
+    font-weight:600;
+
+    color:#1e293b;
+
+    margin-bottom:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+}
+
+.chart-box h2::after{
+
+    content:"Today";
+
+    font-size:13px;
+
+    font-weight:500;
+
+    color:#6366f1;
+
+    background:#eef2ff;
+
+    padding:6px 14px;
+
+    border-radius:30px;
+}
+
+.chart-box canvas{
+
+    width:100% !important;
+
+    height:280px !important;
+}
+
+/*=====================================================
+                SMALL DASHBOARD INFO CARD
+======================================================*/
+
+.dashboard-info{
+
+    margin-top:35px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+    gap:20px;
+}
+
+.info-box{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:
+    0 10px 25px rgba(15,23,42,.08);
+
+    transition:.3s;
+}
+
+.info-box:hover{
+
+    transform:translateY(-5px);
+}
+
+.info-box h4{
+
+    color:#64748b;
+
+    font-size:15px;
+
+    margin-bottom:10px;
+}
+
+.info-box h2{
+
+    color:#1e293b;
+
+    font-size:28px;
+}
+
+/*=====================================================
+                SECTION TITLE
+======================================================*/
+
+.section-title{
+
+    font-size:26px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+    margin:45px 0 20px;
+}
+
+/*=====================================================
+                SMOOTH ANIMATION
+======================================================*/
+
+.card,
+.chart-box,
+.info-box,
+.welcome{
+
+    animation:fadeIn .7s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
+}
+/*=====================================================
+                RESPONSIVE DESIGN
+======================================================*/
+
+@media (max-width:1200px){
+
+    .main-content{
+        margin-left:0;
+        padding:20px;
+    }
+
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    body{
+        display:block;
+    }
+
+}
+
+@media (max-width:992px){
+
+    .header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .header-right{
+        width:100%;
+        justify-content:space-between;
+        flex-wrap:wrap;
+    }
+
+    .search-box{
+        width:100%;
+    }
+
+    .search-box input{
+        width:100%;
+    }
+
+    .cards{
+        grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    }
+
+    .chart-container{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .welcome{
+        padding:25px;
+    }
+
+    .welcome h2{
+        font-size:25px;
+    }
+
+    .welcome p{
+        font-size:14px;
+    }
+
+    .card{
+        padding:22px;
+    }
+
+    .card h1{
+        font-size:32px;
+    }
+
+    .chart-box{
+        padding:20px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .sidebar{
+        padding:18px;
+    }
+
+    .header h1{
+        font-size:24px;
+    }
+
+    .logout-btn{
+        width:100%;
+        text-align:center;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard-info{
+        grid-template-columns:1fr;
+    }
+
+}
+
+/*=====================================================
+                    TABLE
+======================================================*/
+
+.table-container{
+
+    margin-top:35px;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 12px 30px rgba(15,23,42,.08);
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+thead{
+
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+    color:#fff;
+}
+
+thead th{
+
+    padding:18px;
+
+    font-size:15px;
+
+    text-align:left;
+
+    font-weight:600;
+}
+
+tbody td{
+
+    padding:18px;
+
+    border-bottom:1px solid #edf2f7;
+
+    color:#475569;
+
+}
+
+tbody tr{
+
+    transition:.3s;
+}
+
+tbody tr:hover{
+
+    background:#f8faff;
+
+    transform:scale(1.01);
+}
+
+/*=====================================================
+                BUTTONS
+======================================================*/
+
+.btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    padding:12px 22px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.btn-primary{
+
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+    color:#fff;
+}
+
+.btn-success{
+
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+
+    color:#fff;
+}
+
+.btn-danger{
+
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+
+    color:#fff;
+}
+
+.btn-warning{
+
+    background:linear-gradient(135deg,#f59e0b,#fb923c);
+
+    color:#fff;
+}
+
+.btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 25px rgba(0,0,0,.18);
+}
+
+/*=====================================================
+                INPUTS
+======================================================*/
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:14px 18px;
+
+    border:1px solid #dbe4f0;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    transition:.3s;
+
+    outline:none;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    border-color:#6366f1;
+
+    box-shadow:0 0 0 4px rgba(99,102,241,.15);
+}
+
+/*=====================================================
+                BADGES
+======================================================*/
+
+.badge{
+
+    padding:6px 14px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.badge-success{
+
+    background:#dcfce7;
+
+    color:#15803d;
+}
+
+.badge-danger{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+}
+
+.badge-warning{
+
+    background:#fef3c7;
+
+    color:#b45309;
+}
+
+.badge-primary{
+
+    background:#eef2ff;
+
+    color:#4338ca;
+}
+
+/*=====================================================
+                PROFILE DROPDOWN
+======================================================*/
+
+.user-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    cursor:pointer;
+}
+
+.user-profile img{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:3px solid #6366f1;
+}
+
+.user-profile h4{
+
+    font-size:15px;
+
+    color:#1e293b;
+}
+
+.user-profile span{
+
+    font-size:13px;
+
+    color:#64748b;
+}
+
+/*=====================================================
+                LOADER EFFECT
+======================================================*/
+
+.loading{
+
+    width:45px;
+
+    height:45px;
+
+    border:5px solid #e2e8f0;
+
+    border-top:5px solid #6366f1;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+/*=====================================================
+                FLOATING ANIMATION
+======================================================*/
+
+.float{
+
+    animation:floating 4s ease-in-out infinite;
+}
+
+@keyframes floating{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+
+}
+
+/*=====================================================
+                GLASS EFFECT
+======================================================*/
+
+.glass{
+
+    background:rgba(255,255,255,.65);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.25);
+
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+
+    border-radius:20px;
+}
+
+/*=====================================================
+                FADE ANIMATION
+======================================================*/
+
+.fade-up{
+
+    animation:fadeUp .7s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(35px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*=====================================================
+                HOVER EFFECTS
+======================================================*/
+
+.card:hover i{
+
+    transform:rotate(12deg) scale(1.1);
+
+    transition:.4s;
+}
+
+.chart-box:hover canvas{
+
+    transform:scale(1.02);
+
+    transition:.4s;
+}
+
+.sidebar ul li a:hover i{
+
+    transform:translateX(4px);
+
+    transition:.3s;
+}
+
+/*=====================================================
+                FOOTER
+======================================================*/
+
+.footer{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    font-size:14px;
+
+    padding:20px 0;
+
+    border-top:1px solid #e2e8f0;
+}
+/*=====================================================
+                ROOT COLORS
+======================================================*/
+
+:root{
+
+    --primary:#6366f1;
+    --secondary:#8b5cf6;
+    --success:#22c55e;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+
+    --white:#ffffff;
+    --light:#f8fafc;
+    --border:#e2e8f0;
+
+    --text:#1e293b;
+    --text-light:#64748b;
+
+}
+
+
+/*=====================================================
+            FLOATING ACTION BUTTON
+======================================================*/
+
+.fab{
+
+    position:fixed;
+
+    right:30px;
+
+    bottom:30px;
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    border:none;
+
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+
+    color:white;
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    box-shadow:0 20px 35px rgba(99,102,241,.35);
+
+    transition:.35s;
+
+    z-index:999;
+}
+
+.fab:hover{
+
+    transform:scale(1.1) rotate(15deg);
+
+}
+
+/*=====================================================
+            RECENT EMPLOYEES
+======================================================*/
+
+.recent-employees{
+
+    margin-top:35px;
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:25px;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+}
+
+.employee-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 0;
+
+    border-bottom:1px solid #edf2f7;
+
+}
+
+.employee-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.employee-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.employee-left img{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.employee-name{
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:var(--text);
+
+}
+
+.employee-role{
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+/*=====================================================
+                ACTIVITY TIMELINE
+======================================================*/
+
+.timeline{
+
+    margin-top:40px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:22px;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+}
+
+.timeline-item{
+
+    display:flex;
+
+    gap:18px;
+
+    margin-bottom:25px;
+
+}
+
+.timeline-dot{
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    margin-top:5px;
+
+}
+
+.timeline-content h4{
+
+    font-size:16px;
+
+    color:var(--text);
+
+}
+
+.timeline-content p{
+
+    color:var(--text-light);
+
+    margin-top:5px;
+
+    font-size:14px;
+
+}
+
+/*=====================================================
+                PROGRESS BAR
+======================================================*/
+
+.progress-box{
+
+    margin-top:20px;
+
+}
+
+.progress-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:10px;
+
+}
+
+.progress{
+
+    width:100%;
+
+    height:12px;
+
+    background:#edf2f7;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    border-radius:30px;
+
+    background:linear-gradient(90deg,#6366f1,#8b5cf6);
+
+}
+
+/*=====================================================
+                NOTIFICATION CARD
+======================================================*/
+
+.notice{
+
+    background:#eef2ff;
+
+    border-left:5px solid var(--primary);
+
+    padding:18px;
+
+    border-radius:15px;
+
+    margin-top:25px;
+
+}
+
+.notice h4{
+
+    color:var(--primary);
+
+    margin-bottom:8px;
+
+}
+
+.notice p{
+
+    color:#475569;
+
+    line-height:24px;
+
+}
+
+/*=====================================================
+                CALENDAR CARD
+======================================================*/
+
+.calendar{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+    margin-top:35px;
+
+}
+
+.calendar h3{
+
+    margin-bottom:18px;
+
+    color:#1e293b;
+
+}
+
+.calendar-day{
+
+    display:grid;
+
+    grid-template-columns:repeat(7,1fr);
+
+    gap:10px;
+
+}
+
+.calendar-day div{
+
+    padding:14px;
+
+    text-align:center;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.calendar-day div:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+/*=====================================================
+            GLASS CARD
+======================================================*/
+
+.glass-card{
+
+    background:rgba(255,255,255,.65);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.25);
+
+    border-radius:25px;
+
+    padding:25px;
+
+    box-shadow:0 20px 35px rgba(0,0,0,.08);
+
+}
+
+/*=====================================================
+            RIPPLE BUTTON
+======================================================*/
+
+.ripple{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.ripple::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:0;
+
+    height:0;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.4);
+
+    top:50%;
+
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    transition:.6s;
+
+}
+
+.ripple:hover::after{
+
+    width:350px;
+
+    height:350px;
+
+}
+
+/*=====================================================
+            BACKGROUND DECORATION
+======================================================*/
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    width:500px;
+
+    height:500px;
+
+    background:#6366f115;
+
+    border-radius:50%;
+
+    top:-220px;
+
+    right:-180px;
+
+    z-index:-1;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    background:#8b5cf615;
+
+    border-radius:50%;
+
+    bottom:-180px;
+
+    left:-180px;
+
+    z-index:-1;
+
+}
+
+/*=====================================================
+                DARK MODE READY
+======================================================*/
+
+.dark{
+
+    background:#0f172a;
+
+    color:white;
+
+}
+
+.dark .card,
+.dark .chart-box,
+.dark .welcome,
+.dark .recent-employees,
+.dark .timeline,
+.dark .calendar{
+
+    background:#1e293b;
+
+    color:white;
+
+}
+
+.dark table{
+
+    color:white;
+
+}
+
+.dark thead{
+
+    background:#312e81;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= Sidebar ================= -->
+
+
+
+<div class="sidebar">
+
+    <h2>🏢 EMS</h2>
+    <div class="profile-image"></i>
+        {% if employee.profile_photo %}
+            <img src="{{ employee.profile_photo.url }}"
+                alt="Profile"
+                class="profile-img">
+        {% else %}
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Default Profile Photo" width="150" height="150">
+        {% endif %}
+
+        <h5>{{ employee.name }}</h5>
+        <p>{{ employee.role }}</p>
+    </div>
+
+<ul>
+
+    
+
+    <ul>
+        <li>
+            <a href="{% url 'profile' %}">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'dashboard' %}">
+                <i class="fas fa-gauge"></i> Dashboard
+            </a>
+        </li>
+
+        <li>
+    <a href="{% url 'create_admin' %}">
+        <i class="fas fa-user-shield"></i>
+        Create Admin
+    </a>
+</li>
+
+        <li>
+            <a href="{% url 'signup' %}">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'signin' %}">
+                <i class="fas fa-right-to-bracket"></i> Sign In
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'add_employee' %}">
+                <i class="fas fa-user-plus"></i> Add Employee
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'view_employee' %}">
+                <i class="fas fa-users"></i> View Employees
+            </a>
+        </li>
+
+        <li>
+    <a href="{% url 'activity_log' %}">
+        <i class="fas fa-clock-rotate-left"></i>
+        Activity Logs
+    </a>
+</li>
+
+        <li>
+            <a href="{% url 'search' %}">
+                <i class="fas fa-search"></i> Search Employee
+            </a>
+        </li>
+
+
+    </ul>
+
+</div>
+
+<!-- ================= Main Content ================= -->
+
+<div class="main-content">
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <h1>Admin Dashboard</h1>
+
+        <a href="{% url 'signout' %}" class="logout-btn">
+            <i class="fas fa-right-from-bracket"></i>
+            Logout
+        </a>
+
+    </div>
+
+    <!-- Welcome -->
+
+    <div class="welcome">
+
+        <h2> Welcome, {{ employee.name }}👋</h2>
+
+        <p>
+            Welcome to the Employee Management System Dashboard.
+        </p>
+
+    </div>
+
+    <!-- Dashboard Cards -->
+
+    <div class="cards">
+
+        <a href="{% url 'view_employee' %}" class="card-link">
+            <div class="card blue">
+                <i class="fas fa-users"></i>
+                <h3>Total Employees</h3>
+                <h1>{{ total_employees }}</h1>
+            </div>
+        </a>
+
+        <a href="{% url 'active_employees' %}" class="card-link">
+            <div class="card green">
+                <i class="fas fa-user-check"></i>
+                <h3>Active Employees</h3>
+                <h1>{{ active_employees }}</h1>
+            </div>
+        </a>
+
+        <a href="{% url 'recent_employees' %}" class="card-link">
+            <div class="card orange">
+                <i class="fas fa-clock"></i>
+                <h3>Recently Added</h3>
+                <h1>{{ recent_employees }}</h1>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Charts -->
+
+    <div class="chart-container">
+
+        <div class="chart-box">
+
+            <h2>Employees by Department</h2>
+
+            <canvas id="departmentChart"></canvas>
+
+        </div>
+
+        <div class="chart-box">
+
+            <h2>Employees by Gender</h2>
+
+            <canvas id="genderChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+// ================= Department Chart =================
+
+const departmentLabels = [
+{% for d in department %}
+"{{ d.department }}",
+{% endfor %}
+];
+
+const departmentData = [
+{% for d in department %}
+{{ d.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("departmentChart"), {
+
+    type: "bar",
+
+    data: {
+
+        labels: departmentLabels,
+
+        datasets: [{
+
+            label: "Employees",
+
+            data: departmentData,
+
+            backgroundColor: [
+                "#6366F1", // Indigo
+                "#8B5CF6", // Purple
+                "#EC4899", // Pink
+                "#F59E0B", // Amber
+                "#10B981", // Emerald
+                "#06B6D4", // Cyan
+                "#F97316", // Orange
+                "#A855F7"  // Violet
+            ],
+
+            borderRadius: 12,
+            borderSkipped: false,
+            barThickness: 45,
+            maxBarThickness: 50,
+            hoverBackgroundColor: [
+                "#4F46E5",
+                "#7C3AED",
+                "#DB2777",
+                "#D97706",
+                "#059669",
+                "#0891B2",
+                "#EA580C",
+                "#9333EA"
+            ]
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        animation: {
+            duration: 1500,
+            easing: "easeOutQuart"
+        },
+
+        plugins: {
+
+            legend: {
+                display: false
+            },
+
+            tooltip: {
+
+                backgroundColor: "#1E293B",
+
+                titleColor: "#fff",
+
+                bodyColor: "#fff",
+
+                cornerRadius: 12,
+
+                padding: 12,
+
+                displayColors: false
+
+            }
+
+        },
+
+        scales: {
+
+            x: {
+
+                grid: {
+                    display: false
+                },
+
+                ticks: {
+
+                    color: "#64748B",
+
+                    font: {
+                        family: "Poppins",
+                        size: 13,
+                        weight: "600"
+                    }
+
+                }
+
+            },
+
+            y: {
+
+                beginAtZero: true,
+
+                grid: {
+
+                    color: "rgba(148,163,184,.15)",
+
+                    drawBorder: false
+
+                },
+
+                ticks: {
+
+                    color: "#64748B",
+
+                    stepSize: 1,
+
+                    font: {
+
+                        family: "Poppins",
+
+                        size: 13
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+
+// ================= Gender Chart =================
+
+const genderLabels = [
+{% for g in gender %}
+"{{ g.gender }}",
+{% endfor %}
+];
+
+const genderData = [
+{% for g in gender %}
+{{ g.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("genderChart"), {
+
+    type: "doughnut",
+
+    data: {
+
+        labels: genderLabels,
+
+        datasets: [{
+
+            data: genderData,
+
+            backgroundColor: [
+                
+                "#F472B6",
+                "#6366F1",
+                "#34D399"
+            ],
+
+            borderColor: "#ffffff",
+
+            borderWidth: 4,
+
+            hoverOffset: 15
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        cutout: "65%",
+
+        plugins: {
+
+            legend: {
+
+                position: "bottom",
+
+                labels: {
+
+                    padding: 20,
+
+                    usePointStyle: true,
+
+                    pointStyle: "circle",
+
+                    font: {
+
+                        size: 14,
+
+                        family: "Poppins"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Profile Photo</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f6f9;
+        }
+
+        .box{
+            width:400px;
+            margin:80px auto;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+            text-align:center;
+        }
+
+        img{
+            width:150px;
+            height:150px;
+            border-radius:50%;
+            object-fit:cover;
+            margin-bottom:20px;
+        }
+
+        input{
+            margin:20px 0;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:#0d6efd;
+            color:white;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        a{
+            display:block;
+            margin-top:20px;
+            text-decoration:none;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="box">
+
+    {% if employee.profile_photo %}
+        <img src="{{ employee.profile_photo.url }}">
+    {% else %}
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <input type="file" name="photo" required>
+
+        <button type="submit">
+            Upload Photo
+        </button>
+
+    </form>
+
+    <a href="{% url 'profile' %}">Back to Profile</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 15px;
+            background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+            position: relative;
+            overflow-y: auto;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(35px);
+            opacity: .35;
+            z-index: -1;
+        }
+
+        body::before {
+            width: 320px;
+            height: 320px;
+            background: #7c3aed;
+            top: -120px;
+            right: -80px;
+        }
+
+        body::after {
+            width: 260px;
+            height: 260px;
+            background: #60a5fa;
+            bottom: -80px;
+            left: -80px;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-card {
+            width: 100%;
+            max-width: 760px;
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(18px);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .15);
+        }
+
+        .header {
+            padding: 35px 25px 80px;
+            text-align: center;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: #fff;
+        }
+
+        .header h2 {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: .9;
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
+        .profile-image {
+            text-align: center;
+            margin-top: -55px;
+        }
+
+        .profile-image img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .20);
+        }
+
+        .profile-image p {
+            margin-top: 15px;
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .photo-actions {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .change-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .change-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, .35);
+        }
+
+        .remove-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 12px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .details {
+            padding: 35px;
+        }
+
+        .details-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .details-title i {
+            color: #4f46e5;
+        }
+
+        .section-divider {
+            border: none;
+            border-top: 2px solid #f1f5f9;
+            margin: 25px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        table tr:last-child {
+            border-bottom: none;
+        }
+
+        table th,
+        table td {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        table th {
+            width: 180px;
+            color: #4338ca;
+            font-weight: 600;
+        }
+
+        table td {
+            color: #334155;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .badge-role {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .salary-amount {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 0 35px 35px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 180px;
+            text-decoration: none;
+            padding: 14px 20px;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .edit {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, .35);
+        }
+
+        .password {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .password:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, .35);
+        }
+
+        .back {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+
+        .back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, .35);
+        }
+
+        @media(max-width: 768px) {
+            .profile-card {
+                margin: 10px;
+            }
+
+            .details {
+                padding: 20px;
+            }
+
+            table th,
+            table td {
+                display: block;
+                width: 100%;
+                padding: 8px 0;
+            }
+
+            table tr {
+                display: block;
+                margin-bottom: 15px;
+                border-bottom: 1px solid #e5e7eb;
+                padding-bottom: 10px;
+            }
+
+            table tr:last-child {
+                border-bottom: none;
+            }
+
+            table th {
+                font-size: 13px;
+            }
+
+            table td {
+                font-size: 15px;
+                font-weight: 500;
+            }
+
+            .button-group {
+                flex-direction: column;
+                padding: 0 20px 25px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .photo-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .change-btn,
+            .remove-btn {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+
+        @media(max-width: 480px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .header h2 {
+                font-size: 24px;
+            }
+
+            .profile-image img {
+                width: 110px;
+                height: 110px;
+            }
+
+            .details-title {
+                font-size: 16px;
+            }
+
+            table th,
+            table td {
+                font-size: 13px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="profile-card">
+
+            <!-- Header -->
+            <div class="header">
+                <h2><i class="fas fa-user-circle"></i> My Profile</h2>
+                <p>{{ employee.role|default:"Employee" }}</p>
+            </div>
+
+            <!-- Profile Photo -->
+            <div class="profile-image">
+                {% if employee.profile_photo %}
+                    <img src="{{ employee.profile_photo.url }}" alt="Profile Photo" width="150" height="150">
+                {% else %}
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Default Profile Photo" width="150" height="150">
+                {% endif %}
+
+                <!-- Photo Action Buttons -->
+                <div class="photo-actions">
+                    <a href="{% url 'upload_photo' %}" class="change-btn">
+                        <i class="fa-solid fa-camera"></i>
+                        Change Photo
+                    </a>
+
+                    <form method="POST" action="{% url 'remove_profile_photo' %}" style="display: inline-block;">
+                        {% csrf_token %}
+                        <button type="submit" class="remove-btn" onclick="return confirm('Are you sure you want to remove your profile photo?')">
+                            <i class="fa-solid fa-trash"></i>
+                            Remove Photo
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Profile Details -->
+            <div class="details">
+
+                <!-- Personal Details -->
+                <div class="details-title">
+                    <i class="fas fa-id-card"></i> Personal Information
+                </div>
+                <table>
+                    <tr>
+                        <th><i class="fas fa-user"></i> Name</th>
+                        <td>{{ employee.name }}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-envelope"></i> Email</th>
+                        <td>{{ employee.email }}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-phone"></i> Mobile</th>
+                        <td>{{ employee.mobile|default:"Not provided" }}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-calendar-alt"></i> Age</th>
+                        <td>{{ employee.age }} years</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-venus-mars"></i> Gender</th>
+                        <td>{{ employee.gender|default:"Not specified" }}</td>
+                    </tr>
+                </table>
+
+                <hr class="section-divider">
+
+                <!-- Address Details -->
+                <div class="details-title">
+                    <i class="fas fa-map-pin"></i> Address Information
+                </div>
+                <table>
+                    <tr>
+                        <th><i class="fas fa-road"></i> Street / Office</th>
+                        <td>{{ employee.address|default:"Not provided" }}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-city"></i> City</th>
+                        <td>{{ employee.city|default:"Not set" }}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-building"></i> Department</th>
+                        <td>{{ employee.department|default:"Not assigned" }}</td>
+                    </tr>
+                </table>
+
+                <hr class="section-divider">
+
+                <!-- Work Details -->
+                <div class="details-title">
+                    <i class="fas fa-briefcase"></i> Work Information
+                </div>
+                <table>
+                    <tr>
+                        <th><i class="fas fa-user-tag"></i> Role</th>
+                        <td><span class="badge badge-role">{{ employee.role|default:"User" }}</span></td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-calendar-check"></i> Joining Date</th>
+                        <td>{{ employee.joining_date|date:"d M Y"|default:"Not set" }}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-sack-dollar"></i> Annual Salary</th>
+                        <td class="salary-amount">{% if employee.salary %}₹{{ employee.salary|floatformat:2 }}{% else %}Not set{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-circle"></i> Status</th>
+                        <td>
+                            {% if employee.status == "Active" %}
+                                <span class="badge badge-success"><i class="fas fa-circle" style="font-size: 8px;"></i> Active</span>
+                            {% else %}
+                                <span class="badge badge-danger"><i class="fas fa-circle" style="font-size: 8px;"></i> Inactive</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+
+                <hr class="section-divider">
+
+                <!-- Audit Details -->
+                <div class="details-title">
+                    <i class="fas fa-history"></i> Account Information
+                </div>
+                <table>
+                    <tr>
+                        <th><i class="fas fa-user-check"></i> Created By</th>
+                        <td>{{ employee.createdBy|default:"System" }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th><i class="fas fa-user-edit"></i> Updated By</th>
+                        <td>{{ employee.updatedBy|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-calendar-edit"></i> Last Updated</th>
+                        <td>{{ employee.updated_date|date:"d M Y h:i A"|default:"Never" }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <a href="{% url 'update_profile' %}" class="btn edit">
+                    <i class="fa-solid fa-user-pen"></i>
+                    Edit Profile
+                </a>
+                <a href="{% url 'change_password' %}" class="btn password">
+                    <i class="fa-solid fa-key"></i>
+                    Change Password
+                </a>
+                <a href="{% url 'user_dashboard' %}" class="btn back">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

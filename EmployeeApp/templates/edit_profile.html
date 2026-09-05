@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Profile</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<style>
+/*====================================================
+                GOOGLE FONT
+====================================================*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/*====================================================
+                RESET
+====================================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:#f6f8fc;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+    overflow-x:hidden;
+
+    position:relative;
+
+}
+
+/*====================================================
+            BACKGROUND CIRCLES
+====================================================*/
+
+.background-circle{
+
+    position:fixed;
+
+    border-radius:50%;
+
+    z-index:-1;
+
+}
+
+.background-circle.one{
+
+    width:420px;
+
+    height:420px;
+
+    background:#6366f115;
+
+    top:-180px;
+
+    right:-120px;
+
+}
+
+.background-circle.two{
+
+    width:350px;
+
+    height:350px;
+
+    background:#8b5cf615;
+
+    bottom:-150px;
+
+    left:-120px;
+
+}
+
+/*====================================================
+                CONTAINER
+====================================================*/
+
+.container{
+
+    width:100%;
+
+    max-width:960px;
+
+    background:rgba(255,255,255,.75);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 20px 45px rgba(15,23,42,.08);
+
+}
+
+/*====================================================
+                HEADER
+====================================================*/
+
+.profile-header{
+
+    background:linear-gradient(135deg,#4F46E5,#6366F1,#8B5CF6);
+
+    padding:50px 40px 30px;
+
+    text-align:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.profile-header::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:280px;
+
+    height:280px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:50%;
+
+    top:-140px;
+
+    left:-70px;
+
+}
+
+.profile-header::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+
+    height:220px;
+
+    background:rgba(255,255,255,.06);
+
+    border-radius:50%;
+
+    right:-60px;
+
+    bottom:-110px;
+
+}
+
+/*====================================================
+            PROFILE IMAGE
+====================================================*/
+
+.profile-image{
+
+    width:140px;
+
+    height:140px;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    margin:auto;
+
+    border:6px solid rgba(255,255,255,.95);
+
+    box-shadow:0 18px 35px rgba(0,0,0,.18);
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.profile-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.profile-image:hover{
+
+    transform:scale(1.05);
+
+    transition:.4s;
+
+}
+
+/*====================================================
+            HEADER TEXT
+====================================================*/
+
+.profile-header h2{
+
+    color:white;
+
+    margin-top:18px;
+
+    font-size:32px;
+
+    font-weight:700;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.profile-header p{
+
+    color:white;
+
+    opacity:.9;
+
+    margin-top:6px;
+
+    font-size:15px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+/*====================================================
+            PROFILE SUMMARY
+====================================================*/
+
+.profile-summary{
+
+    text-align:center;
+
+    padding:12px 20px;
+
+    background:#f1f4fe;
+
+    border-bottom:1px solid #e2e8f0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+.profile-summary .badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:4px 16px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:500;
+
+}
+
+.badge-role{
+
+    background:#eef2ff;
+
+    color:#4338ca;
+
+}
+
+.badge-status{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+.badge-status.inactive{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+/*====================================================
+                FORM
+====================================================*/
+
+form{
+
+    padding:40px;
+
+}
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+
+}
+
+.full-width{
+
+    grid-column:1/3;
+
+}
+
+/*====================================================
+            INPUT GROUP
+====================================================*/
+
+.input-group label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    color:#334155;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.input-group label i{
+
+    color:#6366F1;
+
+    margin-right:8px;
+
+}
+
+.input-group label .required{
+
+    color:#ef4444;
+
+    margin-left:2px;
+
+}
+
+/*====================================================
+            INPUT BOX
+====================================================*/
+
+.input-box{
+
+    position:relative;
+
+}
+
+.input-box i{
+
+    position:absolute;
+
+    left:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#6366F1;
+
+    font-size:18px;
+
+    pointer-events:none;
+
+    z-index:1;
+
+}
+
+.input-box input,
+
+.input-box select{
+
+    width:100%;
+
+    height:55px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:15px;
+
+    background:#F8FAFC;
+
+    padding-left:50px;
+
+    padding-right:20px;
+
+    font-size:15px;
+
+    transition:.35s;
+
+    border:2px solid transparent;
+
+    appearance:none;
+
+}
+
+.input-box select{
+
+    padding-left:50px;
+
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%236366f1" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+
+    background-repeat: no-repeat;
+
+    background-position: right 16px center;
+
+    background-size: 14px;
+
+    padding-right: 40px;
+
+    cursor:pointer;
+
+}
+
+.input-box input:focus,
+
+.input-box select:focus{
+
+    background:white;
+
+    border-color:#6366F1;
+
+    box-shadow:
+
+    0 10px 25px rgba(99,102,241,.15);
+
+}
+
+.input-box input::placeholder{
+
+    color:#94a3b8;
+
+}
+
+.input-box input:disabled,
+
+.input-box select:disabled{
+
+    background:#f1f5f9;
+
+    cursor:not-allowed;
+
+    opacity:0.7;
+
+}
+
+/*====================================================
+            INPUT ANIMATION
+====================================================*/
+
+.input-box{
+
+    overflow:hidden;
+
+}
+
+.input-box::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:0;
+
+    width:0;
+
+    height:3px;
+
+    background:linear-gradient(90deg,#6366F1,#8B5CF6);
+
+    transition:.4s;
+
+    border-radius:30px;
+
+}
+
+.input-box:focus-within::after{
+
+    width:100%;
+
+}
+
+/*====================================================
+            HOVER EFFECT
+====================================================*/
+
+.input-group{
+
+    transition:.3s;
+
+}
+
+.input-group:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.input-group:hover label{
+
+    color:#6366F1;
+
+}
+
+/*====================================================
+            BUTTONS
+====================================================*/
+
+.button-group{
+
+    margin-top:35px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+}
+
+.save-btn{
+
+    background:linear-gradient(135deg,#6366F1,#8B5CF6);
+
+    color:white;
+
+    border:none;
+
+    padding:15px 28px;
+
+    border-radius:15px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.save-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 18px 35px rgba(99,102,241,.25);
+
+}
+
+.back-btn{
+
+    background:white;
+
+    color:#6366F1;
+
+    text-decoration:none;
+
+    padding:15px 28px;
+
+    border-radius:15px;
+
+    border:2px solid #6366F1;
+
+    font-weight:600;
+
+    transition:.35s;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.back-btn:hover{
+
+    background:#6366F1;
+
+    color:white;
+
+}
+
+/*====================================================
+            BUTTON ANIMATION
+====================================================*/
+
+.save-btn,
+
+.back-btn{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.save-btn::before,
+
+.back-btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-100%;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(255,255,255,.18);
+
+    transform:skewX(-30deg);
+
+    transition:.7s;
+
+}
+
+.save-btn:hover::before,
+
+.back-btn:hover::before{
+
+    left:120%;
+
+}
+
+/*====================================================
+            PROFILE IMAGE ANIMATION
+====================================================*/
+
+.profile-image{
+
+    animation:float 5s ease-in-out infinite;
+
+}
+
+@keyframes float{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*====================================================
+            PAGE ANIMATION
+====================================================*/
+
+.container{
+
+    animation:fadeUp .7s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*====================================================
+            MESSAGES
+====================================================*/
+
+.message{
+
+    padding:14px 20px;
+
+    border-radius:12px;
+
+    font-weight:500;
+
+    font-size:14px;
+
+    margin-bottom:20px;
+
+    text-align:center;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+}
+
+.message.success{
+
+    background:#f0fdf4;
+
+    color:#15803d;
+
+    border:1px solid #bbf7d0;
+
+}
+
+.message.error{
+
+    background:#fef2f2;
+
+    color:#dc2626;
+
+    border:1px solid #fecaca;
+
+}
+
+/*====================================================
+            CUSTOM SCROLLBAR
+====================================================*/
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#EEF2FF;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:linear-gradient(#6366F1,#8B5CF6);
+
+    border-radius:50px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:linear-gradient(#4F46E5,#7C3AED);
+
+}
+
+/*====================================================
+            RESPONSIVE DESIGN
+====================================================*/
+
+@media (max-width:992px){
+
+    .container{
+        max-width:95%;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full-width{
+        grid-column:auto;
+    }
+
+}
+
+@media (max-width:768px){
+
+    body{
+
+        padding:20px;
+
+        align-items:flex-start;
+
+    }
+
+    .profile-header{
+
+        padding:40px 25px 25px;
+
+    }
+
+    .profile-image{
+
+        width:120px;
+
+        height:120px;
+
+    }
+
+    .profile-header h2{
+
+        font-size:26px;
+
+    }
+
+    .profile-header p{
+
+        font-size:14px;
+
+    }
+
+    form{
+
+        padding:25px;
+
+    }
+
+    .profile-summary{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        padding:10px;
+
+    }
+
+    .button-group{
+
+        flex-direction:column;
+
+    }
+
+    .save-btn,
+
+    .back-btn{
+
+        width:100%;
+
+        justify-content:center;
+
+    }
+
+}
+
+@media (max-width:480px){
+
+    .profile-header{
+
+        padding:30px 20px 20px;
+
+    }
+
+    .profile-image{
+
+        width:100px;
+
+        height:100px;
+
+    }
+
+    .profile-header h2{
+
+        font-size:22px;
+
+    }
+
+    .input-box input,
+
+    .input-box select{
+
+        height:48px;
+
+        font-size:14px;
+
+        padding-left:42px;
+
+    }
+
+    .input-box i{
+
+        font-size:15px;
+
+        left:14px;
+
+    }
+
+}
+
+/*====================================================
+                GLASS CARD EFFECT
+====================================================*/
+
+.container{
+
+    border:1px solid rgba(255,255,255,.35);
+
+}
+
+/*====================================================
+                SHADOW EFFECT
+====================================================*/
+
+.container:hover{
+
+    box-shadow:
+
+    0 30px 60px rgba(99,102,241,.12);
+
+}
+
+/*====================================================
+                DARK MODE
+====================================================*/
+
+.dark-mode{
+
+    background:#0F172A;
+
+}
+
+.dark-mode .container{
+
+    background:#1E293B;
+
+}
+
+.dark-mode .input-box input{
+
+    background:#334155;
+
+    color:white;
+
+}
+
+.dark-mode label{
+
+    color:#CBD5E1;
+
+}
+
+.dark-mode .back-btn{
+
+    background:#334155;
+
+    color:white;
+
+    border-color:#475569;
+
+}
+
+.dark-mode .profile-header{
+
+    background:linear-gradient(135deg,#312E81,#4F46E5,#6D28D9);
+
+}
+
+/*====================================================
+            FIELD HINT
+====================================================*/
+
+.field-hint{
+
+    font-size:12px;
+
+    color:#94a3b8;
+
+    margin-top:6px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+}
+
+.field-hint i{
+
+    font-size:12px;
+
+    color:#6366f1;
+
+}
+</style>
+
+</head>
+<body>
+<div class="background-circle one"></div>
+<div class="background-circle two"></div>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="profile-header">
+
+        <div class="profile-image">
+
+            {% if employee.profile_photo %}
+                <img src="{{ employee.profile_photo.url }}" alt="Profile">
+            {% else %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">
+            {% endif %}
+
+        </div>
+
+        <h2>Edit Profile</h2>
+
+        <p>Update your personal and work information</p>
+
+    </div>
+
+    <!-- Profile Summary -->
+    <div class="profile-summary">
+        <span class="badge badge-role">
+            <i class="fa-solid fa-user-tag"></i>
+            {{ employee.role|default:"User" }}
+        </span>
+        <span class="badge badge-status {% if employee.status == 'Inactive' %}inactive{% endif %}">
+            <i class="fa-solid fa-circle"></i>
+            {{ employee.status|default:"Active" }}
+        </span>
+        <span style="color:#64748b; font-size:13px;">
+            <i class="fa-regular fa-calendar"></i>
+            Joined: {{ employee.joining_date|date:"M d, Y"|default:"N/A" }}
+        </span>
+        <span style="color:#64748b; font-size:13px;">
+            <i class="fa-regular fa-id-card"></i>
+            ID: {{ employee.id }}
+        </span>
+    </div>
+
+    <!-- Messages -->
+    {% if message %}
+        <div style="padding: 0 40px; margin-top: 20px;">
+            <div class="message success">
+                <i class="fa-solid fa-check-circle"></i>
+                {{ message }}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div style="padding: 0 40px; margin-top: 20px;">
+            <div class="message error">
+                <i class="fa-solid fa-exclamation-circle"></i>
+                {{ error }}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <!-- ===== PERSONAL DETAILS ===== -->
+            <!-- Name -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-user"></i>
+                    Full Name <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-user"></i>
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ employee.name }}"
+                        placeholder="Enter your full name"
+                        required>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-envelope"></i>
+                    Email <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input
+                        type="email"
+                        name="email"
+                        value="{{ employee.email }}"
+                        placeholder="Enter your email"
+                        required>
+                </div>
+            </div>
+
+            <!-- Age -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-calendar"></i>
+                    Age <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <input
+                        type="number"
+                        name="age"
+                        value="{{ employee.age }}"
+                        placeholder="Age"
+                        min="18"
+                        max="100"
+                        required>
+                </div>
+            </div>
+
+            <!-- Mobile -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-phone"></i>
+                    Mobile <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-phone"></i>
+                    <input
+                        type="tel"
+                        name="mobile"
+                        value="{{ employee.mobile }}"
+                        placeholder="Mobile number"
+                        required>
+                </div>
+            </div>
+
+            <!-- Gender -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-venus-mars"></i>
+                    Gender <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-venus-mars"></i>
+                    <select name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male" {% if employee.gender == "Male" %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if employee.gender == "Female" %}selected{% endif %}>Female</option>
+                        <option value="Other" {% if employee.gender == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Role -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-user-tag"></i>
+                    Role <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <select name="role" required>
+                        <option value="">Select Role</option>
+                        <option value="User" {% if employee.role == "User" %}selected{% endif %}>User</option>
+                        <option value="Admin" {% if employee.role == "Admin" %}selected{% endif %}>Admin</option>
+                        <option value="Manager" {% if employee.role == "Manager" %}selected{% endif %}>Manager</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ===== ADDRESS DETAILS ===== -->
+            <!-- City -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-city"></i>
+                    City <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-city"></i>
+                    <input
+                        type="text"
+                        name="city"
+                        value="{{ employee.city }}"
+                        placeholder="City"
+                        required>
+                </div>
+            </div>
+
+            <!-- Department -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-building"></i>
+                    Department <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-building"></i>
+                    <input
+                        type="text"
+                        name="department"
+                        value="{{ employee.department }}"
+                        placeholder="Department"
+                        required>
+                </div>
+            </div>
+
+            <!-- Address (Street) - Full Width -->
+            <div class="input-group full-width">
+                <label>
+                    <i class="fa-solid fa-location-dot"></i>
+                    Street / Office Address
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <input
+                        type="text"
+                        name="address"
+                        value="{{ employee.address|default:'' }}"
+                        placeholder="123 Main St, Suite 400">
+                </div>
+                <div class="field-hint">
+                    <i class="fa-regular fa-circle-info"></i>
+                    Optional - Your work or home address
+                </div>
+            </div>
+
+            <!-- ===== WORK DETAILS ===== -->
+            <!-- Joining Date -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Joining Date
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-calendar-day"></i>
+                    <input
+                        type="date"
+                        name="joining_date"
+                        value="{{ employee.joining_date|date:'Y-m-d' }}">
+                </div>
+                <div class="field-hint">
+                    <i class="fa-regular fa-circle-info"></i>
+                    When did you join the company?
+                </div>
+            </div>
+
+            <!-- Salary -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-sack-dollar"></i>
+                    Annual Salary ($)
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <input
+                        type="number"
+                        name="salary"
+                        value="{{ employee.salary }}"
+                        placeholder="e.g. 85000"
+                        step="1000"
+                        min="0">
+                </div>
+                <div class="field-hint">
+                    <i class="fa-regular fa-circle-info"></i>
+                    Optional - Your annual salary
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div class="input-group">
+                <label>
+                    <i class="fa-solid fa-user-check"></i>
+                    Status <span class="required">*</span>
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-user-check"></i>
+                    <select name="status" required>
+                        <option value="">Select Status</option>
+                        <option value="Active" {% if employee.status == "Active" %}selected{% endif %}>Active</option>
+                        <option value="Inactive" {% if employee.status == "Inactive" %}selected{% endif %}>Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Password - Full Width -->
+            <div class="input-group full-width">
+                <label>
+                    <i class="fa-solid fa-lock"></i>
+                    Password
+                </label>
+                <div class="input-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter new password (leave blank to keep current)"
+                        minlength="6">
+                </div>
+                <div class="field-hint">
+                    <i class="fa-regular fa-circle-info"></i>
+                    Leave blank to keep your current password. Minimum 6 characters.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+
+            <button type="submit" class="save-btn">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Changes
+            </button>
+
+            <a href="{% url 'profile' %}" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Profile
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+</body>
+</html>

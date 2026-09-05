@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Add Employee</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        /* ===== BACKGROUND ===== */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 15px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(35px);
+            opacity: .35;
+            z-index: -1;
+        }
+
+        body::before {
+            width: 320px;
+            height: 320px;
+            background: #7C3AED;
+            top: -120px;
+            right: -80px;
+        }
+
+        body::after {
+            width: 260px;
+            height: 260px;
+            background: #60A5FA;
+            bottom: -80px;
+            left: -80px;
+        }
+
+        /* ===== CARD CONTAINER ===== */
+        .container {
+            width: 100%;
+            max-width: 780px;
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(18px);
+            border-radius: 24px;
+            padding: 40px 42px 48px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== HEADER ===== */
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .form-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #1e1b4b, #3b2b8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .form-header h2 i {
+            -webkit-text-fill-color: #4f46e5;
+            margin-right: 10px;
+        }
+
+        .profile-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f1f4fe;
+            padding: 8px 18px 8px 12px;
+            border-radius: 40px;
+            border: 1px solid #e0e7ff;
+        }
+
+        .profile-badge i {
+            font-size: 22px;
+            color: #4f46e5;
+            background: white;
+            padding: 8px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(79, 70, 229, 0.08);
+        }
+
+        .profile-badge span {
+            font-weight: 500;
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        .profile-badge small {
+            color: #64748b;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        /* ===== SECTION CARDS ===== */
+        .section-card {
+            background: #fafbff;
+            border-radius: 20px;
+            padding: 20px 24px 24px;
+            margin-bottom: 28px;
+            border: 1px solid #edf2f7;
+            transition: 0.15s;
+        }
+
+        .section-card:hover {
+            border-color: #d9e2ef;
+            background: #f8faff;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
+        }
+
+        .section-title i {
+            color: #4f46e5;
+            font-size: 20px;
+            width: 28px;
+            text-align: center;
+        }
+
+        .section-title .badge-role {
+            background: #eef2ff;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #4338ca;
+            margin-left: 8px;
+        }
+
+        /* ===== FORM GRID ===== */
+        .row-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px 24px;
+        }
+
+        .form-group {
+            margin-bottom: 6px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* ===== LABELS ===== */
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 13px;
+            letter-spacing: 0.02em;
+            color: #334155;
+        }
+
+        label i {
+            margin-right: 6px;
+            color: #6366f1;
+            font-size: 13px;
+            width: 16px;
+        }
+
+        /* ===== INPUT BOXES ===== */
+        .input-box {
+            position: relative;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #818cf8;
+            font-size: 15px;
+            transition: 0.2s;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .input-box input,
+        .input-box select {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 0 16px 0 44px;
+            font-size: 14px;
+            background: white;
+            transition: 0.2s;
+            color: #0f172a;
+            appearance: none;
+        }
+
+        .input-box input:focus,
+        .input-box select:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+
+        .input-box input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        /* ===== SELECT DROPDOWN ===== */
+        .input-box select {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%236366f1" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 14px;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        /* For selects with icon */
+        .input-box select.with-icon {
+            padding-left: 44px;
+        }
+
+        /* For selects without icon */
+        .input-box select.no-icon {
+            padding-left: 16px;
+        }
+
+        .input-box select option {
+            padding: 8px;
+        }
+
+        /* ===== BUTTON ===== */
+        .btn {
+            width: 100%;
+            height: 56px;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: 0.25s;
+            cursor: pointer;
+            box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.3);
+            letter-spacing: 0.3px;
+        }
+
+        .btn:hover {
+            transform: scale(1.01) translateY(-2px);
+            box-shadow: 0 14px 28px -8px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn i {
+            font-size: 18px;
+        }
+
+        /* ===== DASHBOARD LINK ===== */
+        .dashboard-link {
+            margin-top: 18px;
+        }
+
+        .home-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            border: 2px solid #6366F1;
+            border-radius: 14px;
+            color: #6366F1;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: transparent;
+            font-size: 15px;
+        }
+
+        .home-btn:hover {
+            background: #6366F1;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+        }
+
+        .home-btn i {
+            font-size: 16px;
+        }
+
+        /* ===== MESSAGES ===== */
+        .message {
+            text-align: center;
+            margin-top: 24px;
+            padding: 14px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #e6f7e6;
+            color: #0b6b3a;
+            border: 1px solid #b8e6b8;
+        }
+
+        .message.error {
+            background: #ffe8e8;
+            color: #b91c1c;
+            border: 1px solid #f5c6c6;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-note {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #94a3b8;
+            text-align: center;
+            border-top: 1px solid #ecf3fa;
+            padding-top: 18px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 18px;
+            }
+
+            .row-2col {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .form-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .profile-badge {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .section-card {
+                padding: 16px 16px 20px;
+            }
+
+            .form-header h2 {
+                font-size: 24px;
+            }
+
+            .input-box input,
+            .input-box select {
+                height: 44px;
+                font-size: 14px;
+            }
+
+            .btn {
+                height: 48px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ===== HEADER ===== -->
+        <div class="form-header">
+            <h2>
+                <i class="fas fa-user-plus"></i> Add Employee
+            </h2>
+
+        </div>
+
+        <!-- ===== MESSAGES ===== -->
+        {% if message %}
+            <div class="message {% if color == '#dc2626' or color == 'red' %}error{% else %}success{% endif %}">
+                {{ message }}
+            </div>
+        {% endif %}
+
+        <!-- ===== FORM ===== -->
+        <form method="POST" action="{% url 'add_employee' %}">
+            {% csrf_token %}
+
+            <!-- ===== PERSONAL DETAILS ===== -->
+            <div class="section-card">
+                <div class="section-title">
+                    <i class="fas fa-id-card"></i> Personal Details
+                    <span class="badge-role">basic</span>
+                </div>
+                <div class="row-2col">
+                    <!-- Role -->
+                    <div class="form-group">
+                        <label><i class="fas fa-user-tag"></i> Role</label>
+                        <div class="input-box">
+                            <i class="fas fa-user-tag"></i>
+                            <select name="role" required>
+                                <option value="">Select Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="User">User</option>
+                                <option value="Manager">Manager</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <div class="input-box">
+                            <i class="fas fa-user"></i>
+                            <input type="text" name="name" placeholder="e.g. Sarah Chen" required>
+                        </div>
+                    </div>
+
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i> Age</label>
+                        <div class="input-box">
+                            <i class="fas fa-user-clock"></i>
+                            <input type="number" name="age" placeholder="e.g. 32" min="18" max="100" required>
+                        </div>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label><i class="fas fa-venus-mars"></i> Gender</label>
+                        <div class="input-box">
+                            <i class="fas fa-venus-mars"></i>
+                            <select name="gender" class="with-icon" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" name="email" placeholder="sarah@company.com" required>
+                        </div>
+                    </div>
+
+                    <!-- Mobile -->
+                    <div class="form-group">
+                        <label><i class="fas fa-mobile-alt"></i> Mobile</label>
+                        <div class="input-box">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="tel" name="phone" placeholder="+1 987 654 3210" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ADDRESS DETAILS ===== -->
+            <div class="section-card">
+                <div class="section-title">
+                    <i class="fas fa-map-pin"></i> Address Details
+                    <span class="badge-role" style="background: #e6f0ff; color: #2563eb;">location</span>
+                </div>
+                <div class="row-2col">
+                    <!-- Department -->
+                    <div class="form-group">
+                        <label><i class="fas fa-building"></i> Department</label>
+                        <div class="input-box">
+                            <i class="fas fa-building"></i>
+                            <input type="text" name="department" placeholder="e.g. Engineering" required>
+                        </div>
+                    </div>
+
+                    <!-- City -->
+                    <div class="form-group">
+                        <label><i class="fas fa-city"></i> City</label>
+                        <div class="input-box">
+                            <i class="fas fa-city"></i>
+                            <input type="text" name="city" placeholder="e.g. San Francisco" required>
+                        </div>
+                    </div>
+
+                    <!-- Street Address -->
+                    <div class="form-group full-width">
+                        <label><i class="fas fa-road"></i> Street / Office</label>
+                        <div class="input-box">
+                            <i class="fas fa-location-dot"></i>
+                            <input type="text" name="address_line" placeholder="123 Market St, Suite 400">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ROLE & WORK DETAILS ===== -->
+            <div class="section-card" style="border-left: 3px solid #818cf8;">
+                <div class="section-title">
+                    <i class="fas fa-briefcase"></i> Work Details
+                    <span class="badge-role" style="background: #dbeafe; color: #1d4ed8;">employment</span>
+                </div>
+                <div class="row-2col">
+                    <!-- Joining Date -->
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-check"></i> Joining Date</label>
+                        <div class="input-box">
+                            <i class="fas fa-calendar-day"></i>
+                            <input type="date" name="joining_date" required>
+                        </div>
+                    </div>
+
+                    <!-- Salary -->
+                    <div class="form-group">
+                        <label><i class="fas fa-sack-rupee"></i> Annual Salary (₹)</label>
+                        <div class="input-box">
+                            <i class="fas fa-rupee-sign"></i>
+                            <input type="number" name="salary" placeholder="e.g. 85000" step="1000" min="0" required>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group full-width">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" name="password" placeholder="Create a strong password (min 6 characters)" minlength="6" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SUBMIT ===== -->
+            <div style="margin-top: 8px;">
+                <button type="submit" class="btn">
+                    <i class="fas fa-save"></i> Save Employee
+                </button>
+            </div>
+        </form>
+
+        <!-- ===== DASHBOARD LINK ===== -->
+        <div class="dashboard-link">
+            <a href="{% url 'dashboard' %}" class="home-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer-note">
+            <i class="fas fa-shield-alt" style="margin-right: 6px;"></i> Secure · Encrypted · v2
+        </div>
+    </div>
+
+</body>
+</html>

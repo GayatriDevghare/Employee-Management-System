@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee List</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",Arial,sans-serif;
+}
+
+/* ===========================
+        Background
+=========================== */
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#eef2ff,#f8faff);
+    padding:35px;
+    position:relative;
+    overflow-x:auto;
+}
+
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    border-radius:50%;
+    filter:blur(35px);
+    opacity:.35;
+    z-index:-1;
+}
+
+body::before{
+    width:320px;
+    height:320px;
+    background:#7C3AED;
+    top:-120px;
+    right:-80px;
+}
+
+body::after{
+    width:260px;
+    height:260px;
+    background:#60A5FA;
+    left:-70px;
+    bottom:-70px;
+}
+
+/* ===========================
+        Card
+=========================== */
+
+.container{
+    width:98%;
+    max-width:1600px;
+    margin:auto;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:blur(20px);
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 25px 60px rgba(0,0,0,.12);
+}
+
+/* ===========================
+        Heading
+=========================== */
+
+h2{
+    text-align:center;
+    color:#4338CA;
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+h3{
+    text-align:center;
+    color:#64748B;
+    margin-bottom:30px;
+    font-weight:500;
+}
+
+/* ===========================
+    Search Box
+=========================== */
+
+.search-box{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-bottom:25px;
+}
+
+.search-box input,
+.search-box select{
+    height:48px;
+    padding:0 16px;
+    border:1px solid #DCE3F1;
+    border-radius:12px;
+    font-size:15px;
+    outline:none;
+    transition:.3s;
+}
+
+.search-box input{
+    width:280px;
+}
+
+.search-box input:focus,
+.search-box select:focus{
+    border-color:#6366F1;
+    box-shadow:0 0 0 4px rgba(99,102,241,.15);
+}
+
+.search-box button{
+    height:48px;
+    padding:0 24px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#4F46E5,#7C3AED);
+    color:#fff;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.search-box button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(79,70,229,.3);
+}
+
+/* ===========================
+    Sort Links
+=========================== */
+
+.sort-links{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.sort-links b{
+    color:#334155;
+}
+
+.sort-links a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 18px;
+    text-decoration:none;
+    border-radius:10px;
+    background:#EEF2FF;
+    color:#4F46E5;
+    font-weight:600;
+    transition:.3s;
+}
+
+.sort-links a:hover{
+    background:#4F46E5;
+    color:white;
+    transform:translateY(-2px);
+}
+
+/* ===========================
+          Table
+=========================== */
+
+.table-wrapper{
+    overflow-x:auto;
+    border-radius:18px;
+    background:white;
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+    min-width:1800px;
+}
+
+thead{
+    background:linear-gradient(135deg,#4F46E5,#7C3AED);
+    color:white;
+}
+
+th{
+    padding:12px 10px;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+td{
+    padding:10px 8px;
+    text-align:center;
+    border-bottom:1px solid #EDF2F7;
+    white-space:nowrap;
+    font-size:13px;
+}
+
+tbody tr{
+    transition:.3s;
+}
+
+tbody tr:nth-child(even){
+    background:#FAFAFC;
+}
+
+tbody tr:hover{
+    background:#EEF2FF;
+    transform:scale(1.002);
+}
+
+/* Column Widths */
+.col-sr { min-width: 50px; width: 50px; }
+.col-name { min-width: 120px; width: 120px; }
+.col-age { min-width: 50px; width: 50px; }
+.col-email { min-width: 160px; width: 160px; }
+.col-mobile { min-width: 120px; width: 120px; }
+.col-gender { min-width: 80px; width: 80px; }
+.col-department { min-width: 120px; width: 120px; }
+.col-role { min-width: 100px; width: 100px; }
+.col-city { min-width: 100px; width: 100px; }
+.col-address { min-width: 150px; width: 150px; }
+.col-salary { min-width: 100px; width: 100px; }
+.col-joining { min-width: 110px; width: 110px; }
+.col-status { min-width: 90px; width: 90px; }
+.col-createdby { min-width: 110px; width: 110px; }
+.col-createddate { min-width: 140px; width: 140px; }
+.col-updatedby { min-width: 110px; width: 110px; }
+.col-updateddate { min-width: 140px; width: 140px; }
+.col-actions { min-width: 120px; width: 120px; }
+
+/* ===========================
+    Action Buttons
+=========================== */
+
+.edit-btn{
+    display:inline-block;
+    background:#F59E0B;
+    color:white;
+    padding:6px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:12px;
+    transition:.3s;
+    margin:2px;
+}
+
+.edit-btn:hover{
+    background:#D97706;
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(245,158,11,.3);
+}
+
+.delete-btn{
+    background:#EF4444;
+    color:white;
+    border:none;
+    padding:6px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:12px;
+    transition:.3s;
+    margin:2px;
+}
+
+.delete-btn:hover{
+    background:#DC2626;
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(239,68,68,.3);
+}
+
+/* ===========================
+      Status
+=========================== */
+
+.active-btn{
+    display:inline-block;
+    background:#DCFCE7;
+    color:#15803D;
+    padding:4px 14px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:12px;
+    transition:.3s;
+}
+
+.active-btn:hover{
+    background:#15803D;
+    color:white;
+    transform:scale(1.05);
+}
+
+.inactive-btn{
+    display:inline-block;
+    background:#FEE2E2;
+    color:#DC2626;
+    padding:4px 14px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:12px;
+    transition:.3s;
+}
+
+.inactive-btn:hover{
+    background:#DC2626;
+    color:white;
+    transform:scale(1.05);
+}
+
+.salary-amount{
+    font-weight:600;
+    color:#059669;
+}
+
+/* ===========================
+      Pagination
+=========================== */
+
+.pagination{
+    margin-top:30px;
+    text-align:center;
+}
+
+.pagination a{
+    display:inline-block;
+    text-decoration:none;
+    padding:10px 18px;
+    margin:5px;
+    border-radius:10px;
+    background:#4F46E5;
+    color:white;
+    transition:.3s;
+}
+
+.pagination a:hover{
+    background:#4338CA;
+    transform:translateY(-2px);
+}
+
+.pagination span{
+    margin:0 12px;
+    color:#334155;
+    font-weight:600;
+}
+
+/* ===========================
+    Dashboard Button
+=========================== */
+
+.home-btn{
+    display:block;
+    width:220px;
+    margin:30px auto 0;
+    text-align:center;
+    padding:14px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#4F46E5,#7C3AED);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.home-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 25px rgba(79,70,229,.35);
+}
+
+/* ===========================
+    Responsive
+=========================== */
+
+@media(max-width:1200px){
+    .container{
+        padding:20px;
+        width:100%;
+    }
+    
+    table{
+        font-size:12px;
+        min-width:1500px;
+    }
+    
+    th, td{
+        padding:8px 6px;
+    }
+    
+    .col-email { min-width: 140px; width: 140px; }
+    .col-address { min-width: 120px; width: 120px; }
+}
+
+@media(max-width:768px){
+    body{
+        padding:15px;
+    }
+    
+    .container{
+        padding:15px;
+        border-radius:16px;
+    }
+    
+    h2{
+        font-size:24px;
+    }
+    
+    .search-box{
+        flex-direction:column;
+        align-items:stretch;
+    }
+    
+    .search-box input{
+        width:100%;
+    }
+    
+    .sort-links a{
+        padding:8px 14px;
+        font-size:13px;
+        margin:4px;
+    }
+    
+    .table-wrapper{
+        border-radius:12px;
+    }
+    
+    table{
+        font-size:11px;
+        min-width:1300px;
+    }
+    
+    th, td{
+        padding:6px 4px;
+    }
+    
+    .edit-btn, .delete-btn{
+        padding:4px 10px;
+        font-size:11px;
+    }
+    
+    .active-btn, .inactive-btn{
+        padding:3px 10px;
+        font-size:11px;
+    }
+}
+
+@media(max-width:480px){
+    body{
+        padding:10px;
+    }
+    
+    .container{
+        padding:10px;
+        border-radius:12px;
+    }
+    
+    h2{
+        font-size:20px;
+    }
+    
+    h3{
+        font-size:14px;
+    }
+    
+    table{
+        font-size:10px;
+        min-width:1100px;
+    }
+    
+    th, td{
+        padding:4px 3px;
+    }
+    
+    .col-sr { min-width: 30px; width: 30px; }
+    .col-name { min-width: 80px; width: 80px; }
+    .col-email { min-width: 100px; width: 100px; }
+    .col-address { min-width: 80px; width: 80px; }
+    
+    .edit-btn, .delete-btn{
+        padding:3px 8px;
+        font-size:10px;
+        border-radius:6px;
+    }
+    
+    .active-btn, .inactive-btn{
+        padding:2px 8px;
+        font-size:10px;
+    }
+    
+    .home-btn{
+        width:100%;
+        padding:12px;
+        font-size:14px;
+    }
+    
+    .pagination a{
+        padding:6px 12px;
+        font-size:12px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Page Heading -->
+    <h2><i class="fas fa-users" style="color:#6366F1; margin-right:12px;"></i>Employee Management</h2>
+    <h3>{{ title|default:"Employee List" }}</h3>
+
+    <!-- Search Form -->
+    <form method="GET">
+        <div class="search-box">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search by Name"
+                value="{{ request.GET.search }}">
+
+            <select name="status">
+                <option value="">All Status</option>
+                <option value="Active" {% if request.GET.status == "Active" %}selected{% endif %}>Active</option>
+                <option value="Inactive" {% if request.GET.status == "Inactive" %}selected{% endif %}>Inactive</option>
+            </select>
+
+            <select name="role">
+                <option value="">All Roles</option>
+                <option value="Admin" {% if request.GET.role == "Admin" %}selected{% endif %}>Admin</option>
+                <option value="User" {% if request.GET.role == "User" %}selected{% endif %}>User</option>
+                <option value="Manager" {% if request.GET.role == "Manager" %}selected{% endif %}>Manager</option>
+            </select>
+
+            <button type="submit">
+                <i class="fas fa-search"></i> Search
+            </button>
+            
+            <a href="{% url 'view_employee' %}" style="display:inline-flex; align-items:center; gap:8px; height:48px; padding:0 24px; border-radius:12px; background:#64748B; color:white; text-decoration:none; font-weight:600; transition:.3s;">
+                <i class="fas fa-undo"></i> Reset
+            </a>
+        </div>
+    </form>
+
+    <!-- Sorting -->
+    <div class="sort-links">
+        <b>Sort By :</b>
+        <a href="?search={{ request.GET.search }}&status={{ request.GET.status }}&role={{ request.GET.role }}&sort=name">
+            <i class="fas fa-sort-alpha-up"></i> Name A-Z
+        </a>
+        <a href="?search={{ request.GET.search }}&status={{ request.GET.status }}&role={{ request.GET.role }}&sort=-name">
+            <i class="fas fa-sort-alpha-down"></i> Name Z-A
+        </a>
+        <a href="?search={{ request.GET.search }}&status={{ request.GET.status }}&role={{ request.GET.role }}&sort=new">
+            <i class="fas fa-clock"></i> Newest
+        </a>
+        <a href="?search={{ request.GET.search }}&status={{ request.GET.status }}&role={{ request.GET.role }}&sort=old">
+            <i class="fas fa-history"></i> Oldest
+        </a>
+        <a href="?search={{ request.GET.search }}&status={{ request.GET.status }}&role={{ request.GET.role }}&sort=salary_high">
+            <i class="fas fa-arrow-up"></i> Salary High-Low
+        </a>
+        <a href="?search={{ request.GET.search }}&status={{ request.GET.status }}&role={{ request.GET.role }}&sort=salary_low">
+            <i class="fas fa-arrow-down"></i> Salary Low-High
+        </a>
+    </div>
+
+    <!-- Employee Table -->
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-sr">Sr. No.</th>
+                    <th class="col-name">Name</th>
+                    <th class="col-age">Age</th>
+                    <th class="col-email">Email</th>
+                    <th class="col-mobile">Mobile</th>
+                    <th class="col-gender">Gender</th>
+                    <th class="col-department">Department</th>
+                    <th class="col-role">Role</th>
+                    <th class="col-city">City</th>
+                    <th class="col-address">Address</th>
+                    <th class="col-salary">Salary</th>
+                    <th class="col-joining">Joining Date</th>
+                    <th class="col-status">Status</th>
+                    <th class="col-createdby">Created By</th>
+                    <th class="col-createddate">Created Date</th>
+                    <th class="col-updatedby">Updated By</th>
+                    <th class="col-updateddate">Updated Date</th>
+                    <th class="col-actions">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>{{ employees.start_index|add:forloop.counter0 }}</td>
+                    <td><strong>{{ employee.name }}</strong></td>
+                    <td>{{ employee.age }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.mobile }}</td>
+                    <td>{{ employee.gender|default:"-" }}</td>
+                    <td>{{ employee.department|default:"-" }}</td>
+                    <td><span style="background:#EEF2FF; padding:2px 10px; border-radius:20px; font-size:11px;">{{ employee.role|default:"User" }}</span></td>
+                    <td>{{ employee.city|default:"-" }}</td>
+                    <td>{{ employee.address|default:"N/A" }}</td>
+                    <td class="salary-amount">{% if employee.salary %}₹{{ employee.salary|floatformat:0 }}{% else %}-{% endif %}</td>
+                    <td>{{ employee.joining_date|date:"d-m-Y"|default:"-" }}</td>
+                    
+                    <!-- Status -->
+                    <td>
+                        {% if employee.status == "Active" %}
+                            <a href="{% url 'change_status' employee.email %}" class="active-btn">
+                                <i class="fas fa-circle" style="font-size:8px;"></i> Active
+                            </a>
+                        {% else %}
+                            <a href="{% url 'change_status' employee.email %}" class="inactive-btn">
+                                <i class="fas fa-circle" style="font-size:8px;"></i> Inactive
+                            </a>
+                        {% endif %}
+                    </td>
+                    
+                    <td>{{ employee.createdBy|default:"-" }}</td>
+                    <td style="font-size:11px;">{{ employee.created_date|date:"d-m-Y h:i A"|default:"-" }}</td>
+                    <td>{{ employee.updatedBy|default:"-" }}</td>
+                    <td style="font-size:11px;">{{ employee.updated_date|date:"d-m-Y h:i A"|default:"-" }}</td>
+
+                    <!-- Actions -->
+                    <td>
+                        <a href="{% url 'update_employee' employee.email %}" class="edit-btn">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <button type="button" class="delete-btn" onclick="deleteUser('{{ employee.email }}')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="18" style="text-align:center; padding:40px; color:#94a3b8;">
+                        <i class="fas fa-users" style="font-size:40px; display:block; margin-bottom:12px; color:#dbe4f0;"></i>
+                        No Employees Found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if employees.has_previous %}
+            <a href="?page={{ employees.previous_page_number }}&search={{ request.GET.search }}&status={{ request.GET.status }}&role={{ request.GET.role }}&sort={{ request.GET.sort }}">
+                <i class="fas fa-chevron-left"></i> Previous
+            </a>
+        {% endif %}
+
+        <span>
+            Page {{ employees.number }} of {{ employees.paginator.num_pages }}
+        </span>
+
+        {% if employees.has_next %}
+            <a href="?page={{ employees.next_page_number }}&search={{ request.GET.search }}&status={{ request.GET.status }}&role={{ request.GET.role }}&sort={{ request.GET.sort }}">
+                Next <i class="fas fa-chevron-right"></i>
+            </a>
+        {% endif %}
+    </div>
+
+    <!-- Dashboard Button -->
+    <a href="{% url 'dashboard' %}" class="home-btn">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+</div>
+
+<script>
+function deleteUser(email) {
+    if (confirm("Are you sure you want to delete this employee?")) {
+        window.location.href = "/delete_employee/" + encodeURIComponent(email) + "/";
+    }
+}
+</script>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Employee</title>
+
+    <style>
+       *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",Arial,sans-serif;
+}
+
+/* ==========================
+        Background
+========================== */
+
+body{
+    min-height:100vh;
+    padding:40px 15px;
+    background:linear-gradient(135deg,#eef2ff,#f8faff);
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    overflow-y:auto;
+    position:relative;
+}
+
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    border-radius:50%;
+    filter:blur(40px);
+    opacity:.35;
+    z-index:-1;
+}
+
+body::before{
+    width:320px;
+    height:320px;
+    background:#7C3AED;
+    top:-120px;
+    right:-90px;
+}
+
+body::after{
+    width:260px;
+    height:260px;
+    background:#60A5FA;
+    bottom:-90px;
+    left:-70px;
+}
+
+/* ==========================
+          Card
+========================== */
+
+.container{
+    width:100%;
+    max-width:850px;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:blur(20px);
+    border-radius:24px;
+    padding:35px;
+    box-shadow:0 25px 60px rgba(0,0,0,.12);
+}
+
+/* ==========================
+         Heading
+========================== */
+
+h2{
+    text-align:center;
+    color:#4338CA;
+    font-size:32px;
+    margin-bottom:30px;
+}
+
+h2 i{
+    margin-right:10px;
+}
+
+/* ==========================
+      Form Groups
+========================== */
+
+.form-group{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    color:#334155;
+    font-weight:600;
+}
+
+/* ==========================
+      Input Boxes
+========================== */
+
+.input-box{
+    position:relative;
+}
+
+.input-box i{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#6366F1;
+    font-size:16px;
+}
+
+.input-box input{
+    width:100%;
+    height:52px;
+    border:1px solid #DBE4F0;
+    border-radius:14px;
+    padding:0 15px 0 45px;
+    font-size:15px;
+    transition:.3s;
+}
+
+.input-box input:focus{
+    outline:none;
+    border-color:#6366F1;
+    box-shadow:0 0 0 4px rgba(99,102,241,.15);
+}
+
+/* ==========================
+        Button
+========================== */
+
+.buttons{
+    margin-top:28px;
+}
+
+.btn{
+    width:100%;
+    height:54px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,#4F46E5,#7C3AED);
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 25px rgba(79,70,229,.35);
+}
+
+/* ==========================
+      Message
+========================== */
+
+.msg{
+    margin-top:20px;
+    padding:12px;
+    text-align:center;
+    background:#FEE2E2;
+    color:#DC2626;
+    border-radius:12px;
+    font-weight:600;
+}
+
+/* ==========================
+         Table
+========================== */
+
+.table-responsive{
+    overflow-x:auto;
+    margin-top:30px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    border-radius:16px;
+    overflow:hidden;
+}
+
+thead{
+    background:linear-gradient(135deg,#4F46E5,#7C3AED);
+    color:white;
+}
+
+th{
+    padding:15px;
+    font-weight:600;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid #EDF2F7;
+    text-align:center;
+}
+
+tbody tr:nth-child(even){
+    background:#F8FAFC;
+}
+
+tbody tr:hover{
+    background:#EEF2FF;
+}
+
+/* ==========================
+      Dashboard Button
+========================== */
+
+.home-btn{
+    display:block;
+    width:230px;
+    margin:30px auto 0;
+    padding:14px;
+    text-align:center;
+    text-decoration:none;
+    color:#6366F1;
+    border:2px solid #6366F1;
+    border-radius:14px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.home-btn:hover{
+    background:#6366F1;
+    color:#fff;
+}
+
+/* ==========================
+       Responsive
+========================== */
+
+@media(max-width:768px){
+
+    .container{
+        padding:25px;
+    }
+
+    h2{
+        font-size:26px;
+    }
+
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>
+        <i class="fas fa-search"></i>
+        Search Employee
+    </h2>
+
+    <form action="{% url 'search' %}" method="POST">
+
+        {% csrf_token %}
+
+        <!-- Employee ID -->
+        <div class="form-group">
+
+            <label>Employee ID</label>
+
+            <div class="input-box">
+
+                <i class="fas fa-id-badge"></i>
+
+                <input
+                    type="number"
+                    name="id"
+                    placeholder="Enter Employee ID">
+
+            </div>
+
+        </div>
+
+        <!-- Employee Name -->
+        <div class="form-group">
+
+            <label>Employee Name</label>
+
+            <div class="input-box">
+
+                <i class="fas fa-user"></i>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter Employee Name">
+
+            </div>
+
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <div class="input-box">
+
+                <i class="fas fa-envelope"></i>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter Employee Email">
+
+            </div>
+
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+
+            <label>Gender</label>
+
+            <div class="input-box">
+
+                <i class="fas fa-user"></i>
+
+                <input
+                    type="text"
+                    name="gender"
+                    placeholder="Enter Employee Gender">
+
+            </div>
+
+        </div>
+
+        <!-- Role -->
+        <div class="form-group">
+
+            <label>Role</label>
+
+            <div class="input-box">
+
+                <i class="fas fa-user-tag"></i>
+
+                <input
+                    type="text"
+                    name="role"
+                    placeholder="Enter Employee Role">
+
+            </div>
+
+        </div>
+
+        <!-- Department -->
+        <div class="form-group">
+
+            <label>Department</label>
+
+            <div class="input-box">
+
+                <i class="fas fa-building"></i>
+
+                <input
+                    type="text"
+                    name="department"
+                    placeholder="Enter Employee Department">
+
+            </div>
+
+        </div>
+
+        <!-- City -->
+        <div class="form-group">
+
+            <label>City</label>
+
+            <div class="input-box">
+
+                <i class="fas fa-city"></i>
+
+                <input
+                    type="text"
+                    name="city"
+                    placeholder="Enter Employee City">
+
+            </div>
+
+        </div>
+
+        <!-- Search Button -->
+        <div class="buttons">
+
+            <button type="submit" class="btn">
+
+                <i class="fas fa-search"></i>
+
+                Search Employee
+
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- Message -->
+
+    {% if msg %}
+
+        <div class="msg">
+
+            {{ msg }}
+
+        </div>
+
+    {% endif %}
+
+    <!-- Search Result -->
+
+    {% if employees %}
+
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Department</th>
+                    <th>City</th>
+                    
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for emp in employees %}
+
+                <tr>
+
+                    <td>{{ emp.id }}</td>
+                    <td>{{ emp.name }}</td>
+                    <td>{{ emp.age }}</td>
+                    <td>{{ emp.gender }}</td>
+                    <td>{{ emp.role }}</td>
+                    <td>{{ emp.email }}</td>
+                    <td>{{ emp.mobile }}</td>
+                    <td>{{ emp.department }}</td>
+                    <td>{{ emp.city }}</td>
+                    
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% endif %}
+
+    <!-- Back Button -->
+
+    <a href="{% url 'dashboard' %}" class="home-btn">
+
+        <i class="fas fa-arrow-left"></i>
+
+        Back to Dashboard
+
+    </a>
+
+</div>
+
+</body>
+</html>
+
